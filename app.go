@@ -3,6 +3,7 @@ package fluenter
 import (
 	"log"
 	"net"
+	"encoding/json"
 )
 
 type fluentdUDPConn struct {
@@ -30,7 +31,6 @@ func InitUDP(host string) *fluentdUDPConn {
 	}
 }
 
-func (tdClient *fluentdUDPConn)UdpToS3(tag string, jsonPacket string) {
-	buf := []byte(jsonPacket)
-	tdClient.conn.Write(buf)
+func (tdClient *fluentdUDPConn)UdpToS3(tag string, jsonPacket []byte) {
+	tdClient.conn.Write(jsonPacket)
 }
