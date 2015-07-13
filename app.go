@@ -9,7 +9,7 @@ type fluentdUDPConn struct {
 	conn *net.UDPConn
 }
 
-func initUDP(host string) *fluentdUDPConn {
+func InitUDP(host string) *fluentdUDPConn {
 	if host == "" {
 		host = "ip-10-0-11-83.ap-southeast-1.compute.internal:7777"
 	}
