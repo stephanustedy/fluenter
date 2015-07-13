@@ -5,9 +5,11 @@ import (
 	"net"
 )
 
-var tdConn *net.UDPConn
+type fluentdUDPConn struct {
+	conn *net.UDPConn
+}
 
-func initUDP(host string) {
+func initUDP(host string) *fluentdUDPConn {
 	if host == "" {
 		host = "ip-10-0-11-83.ap-southeast-1.compute.internal:7777"
 	}
@@ -18,13 +20,17 @@ func initUDP(host string) {
 		log.Fatal(err)
 	}
 
-	tdConn, err = net.DialUDP("udp", nil, fluentd)
+	tdConn, err := net.DialUDP("udp", nil, fluentd)
 	if err != nil {
 		log.Fatal(err)
 	}
+
+	return &fluentdUDPConn{
+		conn : tdConn,
+	}
 }
 
-func UdpToS3(tag string, jsonPacket string) {
-	buf := []byte(packet)
-	tdConn.Write(buf)
+func (tdClient *fluentdUDPConn)UdpToS3(tag string, jsonPacket string) {
+	buf := []byte(jsonPacket)
+	tdClient.conn.Write(buf)
 }
