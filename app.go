@@ -3,7 +3,6 @@ package fluenter
 import (
 	"log"
 	"net"
-	"encoding/json"
 )
 
 type fluentdUDPConn struct {
